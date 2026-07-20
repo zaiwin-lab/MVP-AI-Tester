@@ -81,7 +81,8 @@ export async function writeRaw(name: string, data: string): Promise<void> {
 export async function writeBytes(name: string, bytes: Buffer): Promise<void> {
   if (DRIVER === "blobs") {
     const store = await blobStore(UPLOAD_STORE);
-    await store.set(name, new Uint8Array(bytes));
+    // Copy into a fresh (non-shared) ArrayBuffer to satisfy the Blobs set() type.
+    await store.set(name, new Uint8Array(bytes).buffer);
     return;
   }
   await fs.mkdir(UPLOAD_DIR, { recursive: true });
