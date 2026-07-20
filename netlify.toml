@@ -11,3 +11,4 @@
 
 [build.environment]
   STORAGE_DRIVER = "netlify-blobs"
+  NODE_VERSION = "20"
