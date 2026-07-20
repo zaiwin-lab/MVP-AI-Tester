@@ -19,11 +19,14 @@ const ICONS: IconName[] = [
 ];
 
 export function Services({ content }: { content: SiteContent["services"] }) {
+  // Show the six most common areas on the homepage; the rest live on the form
+  // and /demo so the landing page stays scannable.
+  const shown = content.items.slice(0, 6);
   return (
     <Section id="services" tone="surface">
       <SectionHeading title={content.heading} sub={content.sub} />
       <div className="mt-10 grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
-        {content.items.map((item, i) => {
+        {shown.map((item, i) => {
           const IconEl = Icon[ICONS[i % ICONS.length]];
           return (
             <div key={item.title} className="group">
@@ -36,6 +39,10 @@ export function Services({ content }: { content: SiteContent["services"] }) {
           );
         })}
       </div>
+      <p className="mt-8 text-[0.95rem] text-ink-soft">
+        Also workflow automation, community outreach, PMO coordination, training technology, and
+        custom prototypes. Not sure which fits? That is exactly what the diagnosis is for.
+      </p>
     </Section>
   );
 }

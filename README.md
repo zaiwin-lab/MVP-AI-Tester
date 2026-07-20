@@ -1,13 +1,13 @@
-# CAP Digital Clinic
+# KAPT Digital Clinic
 
-**Digital Solution Diagnostic Gateway** — by CAP, the KOBIS AI Prodigy Team, for KOBIS Berhad.
+**Digital Solution Diagnostic Gateway** — by KAPT, the KOBIS AI Prodigy Team, for KOBIS Berhad.
 
 Organisations do not need to know what system to build. They describe an
-operational challenge in their own words; CAP reviews it and returns an initial
+operational challenge in their own words; KAPT reviews it and returns an initial
 digital diagnosis. This repository contains both halves of that promise:
 
 - a **public diagnostic gateway** (marketing + submission), and
-- a **practical internal case-management workspace** for the CAP team.
+- a **practical internal case-management workspace** for the KAPT team.
 
 > Do not ask us to build software. Tell us what is slowing your organisation
 > down. We will help identify the right digital solution.
@@ -115,6 +115,6 @@ See `docs/DELIVERY.md` for the full security checklist and phased plan.
 
 ---
 
-Brand assets (KOBIS / CAP logos) and contact details are **editable
+Brand assets (KOBIS / KAPT logos) and contact details are **editable
 placeholders** — replace them before publishing. Nothing in this repository
 invents real government partners, logos, testimonials, or statistics.

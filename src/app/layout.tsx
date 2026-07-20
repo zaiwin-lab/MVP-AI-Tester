@@ -20,15 +20,15 @@ const serif = Source_Serif_4({
 export const metadata: Metadata = {
   metadataBase: new URL("https://cap-digital-clinic.example"),
   title: {
-    default: "CAP Digital Clinic — Digital Solution Diagnostic Gateway | KOBIS Berhad",
-    template: "%s · CAP Digital Clinic",
+    default: "KAPT Digital Clinic — Digital Solution Diagnostic Gateway | KOBIS Berhad",
+    template: "%s · KAPT Digital Clinic",
   },
   description:
-    "Not sure what digital solution you need? Tell CAP, the KOBIS AI Prodigy Team, what is slowing your organisation down. Free initial diagnosis, response within 24 hours.",
+    "Not sure what digital solution you need? Tell KAPT, the KOBIS AI Prodigy Team, what is slowing your organisation down. Free initial diagnosis, response within 24 hours.",
   openGraph: {
-    title: "CAP Digital Clinic — Digital Solution Diagnostic Gateway",
+    title: "KAPT Digital Clinic — Digital Solution Diagnostic Gateway",
     description:
-      "Describe your operational challenge. Our CAP team reviews it and recommends a practical digital direction. Free initial diagnosis, no obligation.",
+      "Describe your operational challenge. Our KAPT team reviews it and recommends a practical digital direction. Free initial diagnosis, no obligation.",
     type: "website",
   },
   robots: { index: true, follow: true },

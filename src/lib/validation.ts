@@ -15,9 +15,16 @@ const optionalTrimmed = (max: number) =>
     .optional()
     .transform((v) => (v ? v : undefined));
 
-/** Server-side schema for a public diagnostic submission. */
+/**
+ * Server-side schema for a public diagnostic submission.
+ *
+ * Kept intentionally low-friction: we only require what KAPT needs to follow up
+ * on a lead (who, how to reach them, which organisation, and the challenge).
+ * Title, role, and organisation type are optional so the form stays short; the
+ * title is auto-derived from the description when left blank (see the API).
+ */
 export const submissionSchema = z.object({
-  // Required
+  // Required — the minimum for a usable, contactable lead
   fullName: z.string().trim().min(2, "Please enter your full name.").max(120),
   workEmail: z.string().trim().toLowerCase().email("Please enter a valid work email.").max(160),
   mobile: z
@@ -27,11 +34,6 @@ export const submissionSchema = z.object({
     .max(40)
     .regex(/^[0-9+()\-.\s]+$/, "Mobile number contains invalid characters."),
   organisationName: z.string().trim().min(2, "Please enter your organisation name.").max(160),
-  organisationType: z.enum(ORGANISATION_TYPES, {
-    errorMap: () => ({ message: "Please select your organisation type." }),
-  }),
-  position: z.string().trim().min(2, "Please enter your position or role.").max(120),
-  challengeTitle: z.string().trim().min(4, "Give your challenge a short title.").max(160),
   challengeDescription: z
     .string()
     .trim()
@@ -43,7 +45,10 @@ export const submissionSchema = z.object({
       message: "Please confirm consent so our team can review your challenge.",
     }),
 
-  // Optional
+  // Optional — help qualify the lead but never block submission
+  organisationType: z.enum(ORGANISATION_TYPES).optional(),
+  position: optionalTrimmed(120),
+  challengeTitle: optionalTrimmed(160),
   department: optionalTrimmed(160),
   website: optionalTrimmed(200),
   currentTools: optionalTrimmed(400),

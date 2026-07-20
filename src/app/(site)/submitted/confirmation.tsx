@@ -8,7 +8,7 @@ import { siteMeta } from "@/lib/content";
 
 export function Confirmation() {
   const params = useSearchParams();
-  const reference = params.get("ref") ?? "CAP-—";
+  const reference = params.get("ref") ?? "KAPT-—";
   const [stamp, setStamp] = useState("");
 
   useEffect(() => {
@@ -16,7 +16,7 @@ export function Confirmation() {
   }, []);
 
   const nextSteps = [
-    "Check your email (including the spam folder) for a confirmation from CAP.",
+    "Check your email (including the spam folder) for a confirmation from KAPT.",
     "Keep your reference number for any follow-up.",
     `Our team will review your challenge and reply, usually within ${siteMeta.responseWindow}.`,
     "We may contact you if we need to clarify any detail.",
@@ -32,7 +32,7 @@ export function Confirmation() {
             </span>
             <h1 className="mt-5 text-h1 font-extrabold text-ink">Thank you. Your challenge has been received.</h1>
             <p className="mt-3 max-w-xl text-lead text-ink-soft">
-              Our CAP team will review your submission and prepare an initial digital diagnosis.
+              Our KAPT team will review your submission and prepare an initial digital diagnosis.
             </p>
           </div>
 

@@ -42,7 +42,7 @@ export default async function PrintPage({ params }: { params: Promise<{ id: stri
       {/* Letterhead */}
       <header className="flex items-start justify-between border-b-2 border-primary pb-4">
         <div>
-          <p className="text-lg font-extrabold tracking-tight text-ink">CAP Digital Clinic</p>
+          <p className="text-lg font-extrabold tracking-tight text-ink">KAPT Digital Clinic</p>
           <p className="text-xs text-muted">{siteMeta.tagline} · {siteMeta.parent}</p>
         </div>
         <div className="text-right text-xs text-muted">
@@ -53,7 +53,7 @@ export default async function PrintPage({ params }: { params: Promise<{ id: stri
       </header>
 
       <section className="mt-6 grid grid-cols-2 gap-x-8 gap-y-1 text-sm">
-        <p><span className="text-muted">Prepared for:</span> <strong>{c.fullName}</strong>, {c.position}</p>
+        <p><span className="text-muted">Prepared for:</span> <strong>{c.fullName}</strong>{c.position ? `, ${c.position}` : ""}</p>
         <p><span className="text-muted">Organisation:</span> <strong>{c.organisationName}</strong></p>
         <p><span className="text-muted">Type:</span> {c.organisationType}</p>
         <p><span className="text-muted">Challenge:</span> {c.challengeTitle}</p>

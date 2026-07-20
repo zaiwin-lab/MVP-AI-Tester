@@ -30,7 +30,7 @@ export async function ensureSeedUser(): Promise<void> {
   if (users.length > 0) return;
   const email = process.env.ADMIN_EMAIL || "admin@kobis.example";
   const password = process.env.ADMIN_PASSWORD || "changeme-admin-2026";
-  const name = process.env.ADMIN_NAME || "CAP Administrator";
+  const name = process.env.ADMIN_NAME || "KAPT Administrator";
   const user: UserRecord = {
     id: newId("usr_"),
     email,

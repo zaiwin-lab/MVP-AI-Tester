@@ -66,7 +66,7 @@ export async function draftDiagnosis(c: CaseRecord): Promise<{ draft: DiagnosisD
 
   const model = process.env.ANTHROPIC_MODEL || "claude-opus-4-8";
   const system =
-    "You are an internal analyst for CAP, a digital solutions consulting team. Produce a PRELIMINARY, INTERNAL diagnosis draft for human review. Be practical and specific. Do not promise pricing or timelines as commitments. Output strict JSON with these keys: understanding, rootProblem, currentProcessIssues, digitalOpportunity, recommendedSolution, keyFeatures, suggestedUserGroups, implementationPhases, quickWinPilot, estimatedDeliveryRange, estimatedInvestmentRange, risksAndConsiderations, informationStillRequired, recommendedNextStep. Values are plain strings.";
+    "You are an internal analyst for KAPT, a digital solutions consulting team. Produce a PRELIMINARY, INTERNAL diagnosis draft for human review. Be practical and specific. Do not promise pricing or timelines as commitments. Output strict JSON with these keys: understanding, rootProblem, currentProcessIssues, digitalOpportunity, recommendedSolution, keyFeatures, suggestedUserGroups, implementationPhases, quickWinPilot, estimatedDeliveryRange, estimatedInvestmentRange, risksAndConsiderations, informationStillRequired, recommendedNextStep. Values are plain strings.";
   const userMsg = JSON.stringify({
     organisation: c.organisationName,
     organisationType: c.organisationType,

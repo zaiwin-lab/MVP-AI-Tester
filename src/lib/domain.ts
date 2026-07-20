@@ -1,5 +1,5 @@
 /**
- * CAP Digital Clinic — domain model.
+ * KAPT Digital Clinic — domain model.
  *
  * Single source of truth for the enums and record shapes used across the
  * public submission flow and the internal case-management workflow. The
@@ -184,7 +184,7 @@ export interface Diagnosis {
 
 export interface CaseRecord {
   id: string;
-  reference: string; // e.g. CAP-2026-0007
+  reference: string; // e.g. KAPT-2026-0007
   createdAt: string;
   updatedAt: string;
   source: string; // "web" for public form
@@ -193,7 +193,7 @@ export interface CaseRecord {
   fullName: string;
   workEmail: string;
   mobile: string;
-  position: string;
+  position?: string;
   preferredContact?: ContactMethod;
   preferredLanguage?: ConsultationLanguage;
 

@@ -22,7 +22,7 @@ export default async function LoginPage() {
           <Logo />
         </div>
         <div className="rounded-2xl border border-border bg-white p-7 shadow-card">
-          <h1 className="text-h3 font-bold text-ink">CAP team sign in</h1>
+          <h1 className="text-h3 font-bold text-ink">KAPT team sign in</h1>
           <p className="mt-1 text-sm text-ink-soft">Access the case-management workspace.</p>
           <div className="mt-6">
             <LoginForm />

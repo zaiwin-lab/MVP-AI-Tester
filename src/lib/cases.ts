@@ -13,11 +13,18 @@ import type {
   CaseStatus,
   Diagnosis,
   EmailLogEntry,
+  OrganisationType,
   ScoreMap,
 } from "./domain";
 import type { SubmissionInput } from "./validation";
 
 /** Service layer: all case mutations flow through here so audit + history stay consistent. */
+
+/** Submission after the API has filled the now-optional title/org-type defaults. */
+export type NormalizedSubmission = SubmissionInput & {
+  organisationType: OrganisationType;
+  challengeTitle: string;
+};
 
 export interface NewCaseContext {
   attachments: AttachmentMeta[];
@@ -28,7 +35,7 @@ export interface NewCaseContext {
 }
 
 export async function createCaseFromSubmission(
-  input: SubmissionInput,
+  input: NormalizedSubmission,
   ctx: NewCaseContext,
 ): Promise<CaseRecord> {
   const now = new Date().toISOString();

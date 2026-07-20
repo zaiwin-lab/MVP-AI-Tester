@@ -32,7 +32,7 @@ export function Footer() {
         <div>
           <Logo tone="light" />
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/60">
-            A diagnostic gateway from CAP, the KOBIS AI Prodigy Team. Bring the challenge, we help
+            A diagnostic gateway from KAPT, the KOBIS AI Prodigy Team. Bring the challenge, we help
             define the solution.
           </p>
           <p className="mt-5 text-[0.82rem] font-medium text-accent">{siteMeta.motto}</p>

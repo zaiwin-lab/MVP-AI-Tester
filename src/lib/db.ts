@@ -137,7 +137,7 @@ export async function updateCase(
   });
 }
 
-/** Atomically allocate the next per-year reference number, e.g. CAP-2026-0007. */
+/** Atomically allocate the next per-year reference number, e.g. KAPT-2026-0007. */
 export async function nextReference(): Promise<string> {
   const year = new Date().getFullYear();
   const key = `ref-${year}`;
@@ -145,7 +145,7 @@ export async function nextReference(): Promise<string> {
     const value = (counters[key] ?? 0) + 1;
     return { next: { ...counters, [key]: value }, result: value };
   });
-  return `CAP-${year}-${String(seq).padStart(4, "0")}`;
+  return `KAPT-${year}-${String(seq).padStart(4, "0")}`;
 }
 
 // ── Users ───────────────────────────────────────────────────────────────────

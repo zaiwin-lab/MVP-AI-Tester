@@ -7,7 +7,7 @@ import { siteMeta } from "@/lib/content";
 export const metadata: Metadata = {
   title: "Describe your challenge",
   description:
-    "Share your operational challenge with the CAP team. Free initial digital diagnosis, response within 24 hours.",
+    "Share your operational challenge with the KAPT team. Free initial digital diagnosis, response within 24 hours.",
 };
 
 const assurances = [
@@ -27,7 +27,7 @@ export default function SubmitPage() {
           </p>
           <h1 className="mt-5 text-h1 font-extrabold text-ink">Tell us what is slowing you down.</h1>
           <p className="mt-4 max-w-md font-serif text-lead text-ink-soft">
-            You do not need a technical brief or a system name. Describe the problem, and our CAP team
+            You do not need a technical brief or a system name. Describe the problem, and our KAPT team
             will recommend a practical digital direction.
           </p>
 

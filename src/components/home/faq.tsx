@@ -7,11 +7,13 @@ import type { SiteContent } from "@/lib/content";
 
 export function Faq({ content }: { content: SiteContent["faq"] }) {
   const [open, setOpen] = useState<number | null>(0);
+  // Keep the landing page light: the seven questions people actually ask first.
+  const items = content.items.slice(0, 7);
   return (
     <Section id="faq" tone="surface">
       <SectionHeading title={content.heading} align="center" />
       <div className="mx-auto mt-9 max-w-3xl divide-y divide-border rounded-xl border border-border bg-white">
-        {content.items.map((item, i) => {
+        {items.map((item, i) => {
           const isOpen = open === i;
           return (
             <div key={item.q}>

@@ -1,8 +1,8 @@
 {
-  "name": "cap-digital-clinic",
+  "name": "kapt-digital-clinic",
   "version": "0.1.0",
   "private": true,
-  "description": "CAP Digital Clinic by KOBIS Berhad — Digital Solution Diagnostic Gateway",
+  "description": "KAPT Digital Clinic by KOBIS Berhad — Digital Solution Diagnostic Gateway",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

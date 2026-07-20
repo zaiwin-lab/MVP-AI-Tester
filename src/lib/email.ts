@@ -85,7 +85,7 @@ export function clientConfirmationEmail(c: CaseRecord): RenderedEmail {
   const subject = `We received your challenge — ${c.reference}`;
   const html = layout(`
     <p style="margin:0 0 14px;">Dear ${escapeHtml(c.fullName)},</p>
-    <p style="margin:0 0 14px;line-height:1.6;">Thank you for sharing your challenge with the CAP team at ${escapeHtml(c.organisationName)}. Your submission has been received and is now with us for review.</p>
+    <p style="margin:0 0 14px;line-height:1.6;">Thank you for sharing your challenge with the KAPT team at ${escapeHtml(c.organisationName)}. Your submission has been received and is now with us for review.</p>
     <table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;background:#f7f9f9;border:1px solid #e2e8ea;border-radius:10px;margin:6px 0 18px;">
       <tr><td style="padding:16px 18px;font-size:14px;line-height:1.9;">
         <strong>Reference:</strong> ${c.reference}<br/>
@@ -97,7 +97,7 @@ export function clientConfirmationEmail(c: CaseRecord): RenderedEmail {
     <p style="margin:0 0 14px;line-height:1.6;">Our team will prepare an initial digital diagnosis and reply, usually within <strong>${siteMeta.responseWindow}</strong>. We may contact you if we need any clarification.</p>
     <p style="margin:0 0 6px;line-height:1.6;font-size:13px;color:#5a6b73;">Please keep this reference for future correspondence. If you did not make this submission, you can ignore this email.</p>
   `);
-  const text = `Dear ${c.fullName},\n\nThank you for sharing your challenge with the CAP team. Your submission has been received.\n\nReference: ${c.reference}\nChallenge: ${c.challengeTitle}\nOrganisation: ${c.organisationName}\nSubmitted: ${formatDate(c.createdAt)}\n\nWe will prepare an initial digital diagnosis and reply, usually within ${siteMeta.responseWindow}.\n\n${siteMeta.brand} — ${siteMeta.motto}`;
+  const text = `Dear ${c.fullName},\n\nThank you for sharing your challenge with the KAPT team. Your submission has been received.\n\nReference: ${c.reference}\nChallenge: ${c.challengeTitle}\nOrganisation: ${c.organisationName}\nSubmitted: ${formatDate(c.createdAt)}\n\nWe will prepare an initial digital diagnosis and reply, usually within ${siteMeta.responseWindow}.\n\n${siteMeta.brand} — ${siteMeta.motto}`;
   return { subject, html, text };
 }
 
@@ -107,16 +107,16 @@ export function internalNotificationEmail(c: CaseRecord): RenderedEmail {
     <p style="margin:0 0 12px;font-weight:600;">A new challenge has been submitted.</p>
     <table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;font-size:14px;line-height:1.9;">
       <tr><td><strong>Reference:</strong> ${c.reference}</td></tr>
-      <tr><td><strong>Contact:</strong> ${escapeHtml(c.fullName)} (${escapeHtml(c.position)})</td></tr>
+      <tr><td><strong>Contact:</strong> ${escapeHtml(c.fullName)}${c.position ? ` (${escapeHtml(c.position)})` : ""}</td></tr>
       <tr><td><strong>Organisation:</strong> ${escapeHtml(c.organisationName)} — ${c.organisationType}</td></tr>
       <tr><td><strong>Email:</strong> ${escapeHtml(c.workEmail)} · <strong>Mobile:</strong> ${escapeHtml(c.mobile)}</td></tr>
       <tr><td><strong>Category:</strong> ${c.category ?? "Not specified"} · <strong>Budget:</strong> ${c.budget ?? "Not specified"}</td></tr>
     </table>
     <p style="margin:16px 0 6px;font-weight:600;">${escapeHtml(c.challengeTitle)}</p>
     <p style="margin:0 0 18px;line-height:1.6;white-space:pre-wrap;color:#3c4c54;">${escapeHtml(c.challengeDescription).slice(0, 1200)}</p>
-    <a href="#" style="${btn}">Open in CAP admin</a>
+    <a href="#" style="${btn}">Open in KAPT admin</a>
   `);
-  const text = `New challenge submitted.\n\nReference: ${c.reference}\nContact: ${c.fullName} (${c.position})\nOrganisation: ${c.organisationName} — ${c.organisationType}\nEmail: ${c.workEmail} · Mobile: ${c.mobile}\nCategory: ${c.category ?? "-"} · Budget: ${c.budget ?? "-"}\n\n${c.challengeTitle}\n${c.challengeDescription}`;
+  const text = `New challenge submitted.\n\nReference: ${c.reference}\nContact: ${c.fullName}${c.position ? ` (${c.position})` : ""}\nOrganisation: ${c.organisationName} — ${c.organisationType}\nEmail: ${c.workEmail} · Mobile: ${c.mobile}\nCategory: ${c.category ?? "-"} · Budget: ${c.budget ?? "-"}\n\n${c.challengeTitle}\n${c.challengeDescription}`;
   return { subject, html, text };
 }
 
@@ -136,12 +136,12 @@ export function diagnosisReadyEmail(c: CaseRecord, summaryHtml: string, summaryT
   const subject = `Your initial digital diagnosis — ${c.reference}`;
   const html = layout(`
     <p style="margin:0 0 14px;">Dear ${escapeHtml(c.fullName)},</p>
-    <p style="margin:0 0 16px;line-height:1.6;">Our CAP team has reviewed your challenge (<strong>${c.reference}</strong>) and prepared an initial digital diagnosis. This is a preliminary direction, not a formal quotation.</p>
+    <p style="margin:0 0 16px;line-height:1.6;">Our KAPT team has reviewed your challenge (<strong>${c.reference}</strong>) and prepared an initial digital diagnosis. This is a preliminary direction, not a formal quotation.</p>
     <div style="border:1px solid #e2e8ea;border-radius:10px;padding:18px;line-height:1.65;margin:0 0 18px;">${summaryHtml}</div>
     <p style="margin:0 0 16px;line-height:1.6;">If this direction fits, we would be glad to arrange a consultation to refine scope, timeline, and cost.</p>
     <a href="#" style="${btn}">Request a consultation</a>
   `);
-  const text = `Dear ${c.fullName},\n\nOur CAP team has reviewed your challenge (${c.reference}) and prepared an initial digital diagnosis. This is preliminary, not a formal quotation.\n\n${summaryText}\n\nIf this direction fits, we would be glad to arrange a consultation.`;
+  const text = `Dear ${c.fullName},\n\nOur KAPT team has reviewed your challenge (${c.reference}) and prepared an initial digital diagnosis. This is preliminary, not a formal quotation.\n\n${summaryText}\n\nIf this direction fits, we would be glad to arrange a consultation.`;
   return { subject, html, text };
 }
 

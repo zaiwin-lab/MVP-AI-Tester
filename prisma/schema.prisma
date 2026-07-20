@@ -1,4 +1,4 @@
-// CAP Digital Clinic — production database schema (PostgreSQL / Supabase).
+// KAPT Digital Clinic — production database schema (PostgreSQL / Supabase).
 //
 // The running V1 app persists these exact shapes through a file-backed store
 // (src/lib/db.ts) so it runs with zero external services. This schema is the

@@ -1,4 +1,4 @@
-# CAP Digital Clinic — Delivery Blueprint
+# KAPT Digital Clinic — Delivery Blueprint
 
 The twelve planning artifacts requested in the brief, mapped to what shipped.
 
@@ -33,7 +33,7 @@ API
 Visitor lands → understands they only describe a problem → tries the magic box →
 opens the form (draft carried over) → fills contact + organisation → describes
 the challenge → optional detail + files → consent → submit → confirmation with
-reference. Internally: case stored → CAP notified → admin classifies, assigns,
+reference. Internally: case stored → KAPT notified → admin classifies, assigns,
 scores → drafts diagnosis (optionally AI-assisted) → human review → sends by
 email → case advances to consultation / pilot / proposal / project.
 

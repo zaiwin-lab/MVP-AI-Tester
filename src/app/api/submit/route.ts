@@ -11,6 +11,13 @@ export const runtime = "nodejs";
 const CONSENT_TEXT =
   "Consent given via public diagnostic form: information reviewed to prepare an initial diagnosis; no confidential/classified material; not a contract or quotation.";
 
+/** Build a short title from the first sentence of the description. */
+function deriveTitle(description: string): string {
+  const firstSentence = description.split(/[.\n]/)[0]!.trim();
+  const words = firstSentence.split(/\s+/).slice(0, 10).join(" ");
+  return (words.length >= 4 ? words : description.slice(0, 80)).slice(0, 160);
+}
+
 export async function POST(req: Request) {
   const ip = clientIp(req.headers);
 
@@ -32,7 +39,7 @@ export async function POST(req: Request) {
 
   // Honeypot: if filled, silently accept without storing (don't tip off bots)
   if ((form.get("company_url") as string)?.length) {
-    return NextResponse.json({ reference: "CAP-0000-0000" }, { status: 200 });
+    return NextResponse.json({ reference: "KAPT-0000-0000" }, { status: 200 });
   }
 
   // Timing check: reject submissions faster than 2.5s (likely automated)
@@ -66,6 +73,13 @@ export async function POST(req: Request) {
     );
   }
 
+  // Fill sensible defaults for the now-optional fields so the case is complete.
+  const data = {
+    ...parsed.data,
+    organisationType: parsed.data.organisationType ?? ("Other" as const),
+    challengeTitle: parsed.data.challengeTitle ?? deriveTitle(parsed.data.challengeDescription),
+  };
+
   // Handle uploads (validated + stored securely)
   const attachments: AttachmentMeta[] = [];
   const uploadErrors: string[] = [];
@@ -79,7 +93,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: uploadErrors.join(" ") }, { status: 422 });
   }
 
-  const record = await createCaseFromSubmission(parsed.data, {
+  const record = await createCaseFromSubmission(data, {
     attachments,
     consentText: CONSENT_TEXT,
     ipHash: hashIp(ip),

@@ -5,7 +5,7 @@ import { Icon } from "@/components/icons";
 
 export const metadata: Metadata = {
   title: "See how a diagnosis works",
-  description: "Sample challenges and the digital directions CAP would explore. Examples only.",
+  description: "Sample challenges and the digital directions KAPT would explore. Examples only.",
 };
 
 export default async function DemoPage() {
@@ -35,7 +35,7 @@ export default async function DemoPage() {
               </div>
               <div className="bg-surface/50 p-6">
                 <p className="text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-primary-ink">
-                  Direction CAP would explore
+                  Direction KAPT would explore
                 </p>
                 <p className="mt-2 leading-relaxed text-ink-soft">{item.direction}</p>
               </div>

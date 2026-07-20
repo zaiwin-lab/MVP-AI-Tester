@@ -1,12 +1,12 @@
-# PRODUCT.md — CAP Digital Clinic
+# PRODUCT.md — KAPT Digital Clinic
 
 **register:** brand (public marketing gateway) + product (internal admin workspace)
 
 ## What it is
 
-A Digital Solution Diagnostic Gateway for CAP (the KOBIS AI Prodigy Team) at
+A Digital Solution Diagnostic Gateway for KAPT (the KOBIS AI Prodigy Team) at
 KOBIS Berhad. Organisations describe an operational challenge in plain words;
-CAP returns a human-reviewed initial digital diagnosis within 24 hours. The
+KAPT returns a human-reviewed initial digital diagnosis within 24 hours. The
 public side converts serious enquiries; the internal side manages the case
 through to consultation, pilot, proposal, or project.
 
@@ -19,7 +19,7 @@ need.
 
 ## Voice & positioning
 
-Confident, measured, intelligent, practical, human. CAP is a diagnostic and
+Confident, measured, intelligent, practical, human. KAPT is a diagnostic and
 solution-design partner, not a cheap software agency. Avoid hype words
 (revolutionary, disruptive, world-class, transformation). Frameworks: AZUGAI7
 (institutional depth), KODE5 (simplicity/usability), CONVAH7 (light — clarity,

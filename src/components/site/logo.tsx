@@ -4,7 +4,7 @@ import { siteMeta } from "@/lib/content";
 /**
  * Wordmark + seal. The mark is a stylised diagnostic pulse inside a rounded
  * seal — institutional, not a robot. Replace the seal with the official
- * KOBIS / CAP logo asset when available (placeholder by design).
+ * KOBIS / KAPT logo asset when available (placeholder by design).
  */
 export function Logo({ tone = "dark" }: { tone?: "dark" | "light" }) {
   const title = tone === "light" ? "text-white" : "text-ink";
@@ -17,7 +17,7 @@ export function Logo({ tone = "dark" }: { tone?: "dark" | "light" }) {
         </svg>
       </span>
       <span className="leading-tight">
-        <span className={`block text-[0.98rem] font-bold tracking-tight ${title}`}>CAP Digital Clinic</span>
+        <span className={`block text-[0.98rem] font-bold tracking-tight ${title}`}>KAPT Digital Clinic</span>
         <span className={`block text-[0.68rem] font-medium uppercase tracking-[0.13em] ${sub}`}>by KOBIS Berhad</span>
       </span>
     </Link>
