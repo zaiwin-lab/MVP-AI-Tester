@@ -1,0 +1,13 @@
+# Netlify build configuration for KAPT Digital Clinic (Next.js).
+# The official Next runtime handles SSR, server actions, and API routes as
+# serverless functions. Persistent storage uses Netlify Blobs (see src/lib/store.ts),
+# enabled by the STORAGE_DRIVER env var set in the project's environment.
+
+[build]
+  command = "npm run build"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+[build.environment]
+  STORAGE_DRIVER = "netlify-blobs"

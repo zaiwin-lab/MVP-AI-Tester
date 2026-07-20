@@ -11,6 +11,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@netlify/blobs": "^10.7.9",
     "next": "15.1.6",
     "nodemailer": "^6.9.16",
     "react": "19.0.0",

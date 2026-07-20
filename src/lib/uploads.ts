@@ -1,22 +1,18 @@
-import { promises as fs } from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
 import type { AttachmentMeta } from "./domain";
 import { ALLOWED_UPLOAD_EXTENSIONS, ALLOWED_UPLOAD_TYPES } from "./validation";
+import { readBytes, writeBytes } from "./store";
 
 /**
- * Secure-by-default local file storage for supporting uploads.
+ * Secure-by-default storage for supporting uploads.
  *
- * Files are written under `.data/uploads/` (git-ignored) with generated,
- * non-guessable names, and served back only through an authenticated admin
+ * Files are stored (local disk or Netlify Blobs, via store.ts) with generated,
+ * non-guessable names and served back only through an authenticated admin
  * route — never from a public directory. Validation covers extension, MIME
  * type, and size. `scanPlaceholder` marks the integration point for malware
  * scanning before a file is trusted.
  */
-
-const UPLOAD_DIR = process.env.CAP_UPLOAD_DIR
-  ? path.resolve(process.env.CAP_UPLOAD_DIR)
-  : path.join(process.cwd(), ".data", "uploads");
 
 export function maxUploadBytes(): number {
   return (Number(process.env.MAX_UPLOAD_MB) || 15) * 1024 * 1024;
@@ -55,10 +51,9 @@ export async function saveUpload(file: File): Promise<UploadOutcome> {
   const scan = await scanPlaceholder(buffer);
   if (!scan.clean) return { ok: false, error: `${file.name} failed a safety check.` };
 
-  await fs.mkdir(UPLOAD_DIR, { recursive: true });
   const ext = path.extname(file.name).toLowerCase();
   const storedName = `${crypto.randomBytes(16).toString("hex")}${ext}`;
-  await fs.writeFile(path.join(UPLOAD_DIR, storedName), buffer);
+  await writeBytes(storedName, buffer);
 
   return {
     ok: true,
@@ -73,12 +68,8 @@ export async function saveUpload(file: File): Promise<UploadOutcome> {
   };
 }
 
-/** Read a stored file for authenticated download. Guards against path escape. */
+/** Read a stored file for authenticated download. Guards against name tampering. */
 export async function readUpload(storedName: string): Promise<Buffer | null> {
   if (!/^[a-f0-9]{32}\.[a-z0-9]+$/i.test(storedName)) return null;
-  try {
-    return await fs.readFile(path.join(UPLOAD_DIR, storedName));
-  } catch {
-    return null;
-  }
+  return readBytes(storedName);
 }

@@ -1,28 +1,22 @@
-import { promises as fs } from "node:fs";
-import path from "node:path";
 import crypto from "node:crypto";
 import type {
   AuditLogEntry,
   CaseRecord,
   UserRecord,
 } from "./domain";
+import { readRaw, writeRaw } from "./store";
 
 /**
- * Minimal file-backed persistence for V1.
+ * Collection-level persistence for V1.
  *
- * Everything is stored as JSON under `.data/` (git-ignored). Access goes
- * through this module only, so swapping to Prisma + Postgres/Supabase later is
- * a matter of reimplementing these functions against the schema in
- * `prisma/schema.prisma` — call sites do not change.
+ * Access goes through this module only. The actual bytes live behind
+ * `store.ts` (local files, or Netlify Blobs when deployed serverless), so
+ * swapping storage — or later moving to Prisma + Postgres/Supabase per
+ * `prisma/schema.prisma` — does not touch any call site.
  *
- * Writes are serialised through a per-file promise chain and use a
- * write-temp-then-rename to avoid torn reads. This is appropriate for a
- * single-node MVP / demo deployment, not high-concurrency production.
+ * Writes are serialised through a per-collection promise chain. Suitable for a
+ * single-node MVP / low-traffic gateway, not high-concurrency production.
  */
-
-const DATA_DIR = process.env.CAP_DATA_DIR
-  ? path.resolve(process.env.CAP_DATA_DIR)
-  : path.join(process.cwd(), ".data");
 
 type Shape = {
   cases: CaseRecord[];
@@ -53,38 +47,26 @@ const DEFAULTS: Shape = {
 
 const writeChains = new Map<string, Promise<unknown>>();
 
-async function ensureDir() {
-  await fs.mkdir(DATA_DIR, { recursive: true });
-}
-
 async function readCollection<K extends keyof Shape>(key: K): Promise<Shape[K]> {
-  await ensureDir();
-  const file = path.join(DATA_DIR, FILES[key]);
+  const raw = await readRaw(FILES[key]);
+  if (raw === null) return structuredClone(DEFAULTS[key]);
   try {
-    const raw = await fs.readFile(file, "utf8");
     return JSON.parse(raw) as Shape[K];
-  } catch (err: unknown) {
-    if ((err as NodeJS.ErrnoException).code === "ENOENT") {
-      return structuredClone(DEFAULTS[key]);
-    }
-    throw err;
+  } catch {
+    return structuredClone(DEFAULTS[key]);
   }
 }
 
-/** Serialised read-modify-write against a single collection file. */
+/** Serialised read-modify-write against a single collection. */
 function mutate<K extends keyof Shape, R>(
   key: K,
   fn: (current: Shape[K]) => { next: Shape[K]; result: R } | Promise<{ next: Shape[K]; result: R }>,
 ): Promise<R> {
   const prev = writeChains.get(FILES[key]) ?? Promise.resolve();
   const run = prev.then(async () => {
-    await ensureDir();
     const current = await readCollection(key);
     const { next, result } = await fn(current);
-    const file = path.join(DATA_DIR, FILES[key]);
-    const tmp = `${file}.${crypto.randomBytes(6).toString("hex")}.tmp`;
-    await fs.writeFile(tmp, JSON.stringify(next, null, 2), "utf8");
-    await fs.rename(tmp, file);
+    await writeRaw(FILES[key], JSON.stringify(next, null, 2));
     return result;
   });
   // Keep the chain alive even if this op throws, so later writes still run.
