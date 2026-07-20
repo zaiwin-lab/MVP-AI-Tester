@@ -52,8 +52,15 @@ async function blobStore(name: string): Promise<BlobStore> {
 
 export async function readRaw(name: string): Promise<string | null> {
   if (DRIVER === "blobs") {
-    const store = await blobStore(DATA_STORE);
-    return (await store.get(name, { type: "text" })) as string | null;
+    // Fail safe: if Blobs isn't available (e.g. during a build-time prerender),
+    // fall back to null so callers use their defaults instead of erroring.
+    try {
+      const store = await blobStore(DATA_STORE);
+      return (await store.get(name, { type: "text" })) as string | null;
+    } catch (err) {
+      console.warn(`[store] Blobs read failed for "${name}", using default:`, err);
+      return null;
+    }
   }
   try {
     return await fs.readFile(path.join(DATA_DIR, name), "utf8");
@@ -91,9 +98,14 @@ export async function writeBytes(name: string, bytes: Buffer): Promise<void> {
 
 export async function readBytes(name: string): Promise<Buffer | null> {
   if (DRIVER === "blobs") {
-    const store = await blobStore(UPLOAD_STORE);
-    const buf = (await store.get(name, { type: "arrayBuffer" })) as ArrayBuffer | null;
-    return buf ? Buffer.from(buf) : null;
+    try {
+      const store = await blobStore(UPLOAD_STORE);
+      const buf = (await store.get(name, { type: "arrayBuffer" })) as ArrayBuffer | null;
+      return buf ? Buffer.from(buf) : null;
+    } catch (err) {
+      console.warn(`[store] Blobs read failed for upload "${name}":`, err);
+      return null;
+    }
   }
   try {
     return await fs.readFile(path.join(UPLOAD_DIR, name));

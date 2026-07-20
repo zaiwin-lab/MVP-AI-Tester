@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   description: "Sample challenges and the digital directions KAPT would explore. Examples only.",
 };
 
+// Read editable content at request time (Blobs), not during the build.
+export const dynamic = "force-dynamic";
+
 export default async function DemoPage() {
   const c = await getSiteContent();
   const demo = c.demo;

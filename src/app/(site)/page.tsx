@@ -8,6 +8,10 @@ import { Trust } from "@/components/home/trust";
 import { Faq } from "@/components/home/faq";
 import { FinalCta } from "@/components/home/final-cta";
 
+// Rendered at request time so editable content (and Netlify Blobs) is read in
+// the serverless runtime, never during the build.
+export const dynamic = "force-dynamic";
+
 /**
  * Deliberately lean funnel: land → describe → understand how it works → why
  * KAPT → trust → a couple of questions → one clear action. Fuller sections
