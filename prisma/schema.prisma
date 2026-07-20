@@ -1,0 +1,208 @@
+// CAP Digital Clinic — production database schema (PostgreSQL / Supabase).
+//
+// The running V1 app persists these exact shapes through a file-backed store
+// (src/lib/db.ts) so it runs with zero external services. This schema is the
+// canonical model for the production upgrade: point `datasource` at Postgres,
+// run `prisma migrate`, and reimplement src/lib/db.ts against Prisma — the
+// service layer (src/lib/cases.ts) and all call sites stay unchanged.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  admin
+  consultant
+  reviewer
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String
+  role         UserRole @default(consultant)
+  passwordHash String
+  active       Boolean  @default(true)
+  createdAt    DateTime @default(now())
+
+  assignedCases Case[]      @relation("CaseAssignee")
+  notes         CaseNote[]
+  statusChanges StatusHistory[]
+  auditLogs     AuditLog[]
+}
+
+model Case {
+  id        String   @id @default(cuid())
+  reference String   @unique
+  source    String   @default("web")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Contact
+  fullName          String
+  workEmail         String
+  mobile            String
+  position          String
+  preferredContact  String?
+  preferredLanguage String?
+
+  // Organisation
+  organisationName String
+  organisationType String
+  department       String?
+  website          String?
+  location         String?
+
+  // Challenge
+  challengeTitle       String
+  challengeDescription String  @db.Text
+  category             String?
+  currentTools         String?
+  affectedUsers        String?
+  deadline             String?
+  budget               String?
+  supportingLink       String?
+
+  // Workflow
+  status                  String   @default("New")
+  priority                String   @default("Normal")
+  assignedTo              User?    @relation("CaseAssignee", fields: [assignedToId], references: [id])
+  assignedToId            String?
+  recommendedSolutionType String?
+  followUpAction          String?
+  nextActionDate          String?
+
+  // Consent & audit
+  consent        Boolean  @default(true)
+  consentText    String   @db.Text
+  consentAt      DateTime @default(now())
+  submitterIpHash String?
+  userAgent      String?
+
+  attachments   Attachment[]
+  notes         CaseNote[]
+  statusHistory StatusHistory[]
+  emailLog      EmailLog[]
+  score         CaseScore?
+  diagnosis     Diagnosis?
+
+  @@index([status])
+  @@index([organisationType])
+  @@index([createdAt])
+}
+
+model Attachment {
+  id           String   @id @default(cuid())
+  case         Case     @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  caseId       String
+  originalName String
+  storedName   String
+  mimeType     String
+  size         Int
+  uploadedAt   DateTime @default(now())
+}
+
+model CaseNote {
+  id        String   @id @default(cuid())
+  case      Case     @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  caseId    String
+  author    User?    @relation(fields: [authorId], references: [id])
+  authorId  String?
+  authorName String
+  body      String   @db.Text
+  createdAt DateTime @default(now())
+}
+
+model StatusHistory {
+  id        String   @id @default(cuid())
+  case      Case     @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  caseId    String
+  from      String?
+  to        String
+  by        User?    @relation(fields: [byId], references: [id])
+  byId      String?
+  byName    String
+  note      String?
+  createdAt DateTime @default(now())
+}
+
+model EmailLog {
+  id        String   @id @default(cuid())
+  case      Case     @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  caseId    String
+  template  String
+  to        String
+  subject   String
+  status    String
+  error     String?
+  createdAt DateTime @default(now())
+}
+
+model CaseScore {
+  id                       String @id @default(cuid())
+  case                     Case   @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  caseId                   String @unique
+  strategicRelevance       Int?
+  problemUrgency           Int?
+  potentialImpact          Int?
+  budgetReadiness          Int?
+  decisionMakerAccess      Int?
+  implementationReadiness  Int?
+  replicationPotential     Int?
+  institutionalImportance  Int?
+  relationshipStrength     Int?
+  commercialPotential      Int?
+}
+
+model Diagnosis {
+  id                      String   @id @default(cuid())
+  case                    Case     @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  caseId                  String   @unique
+  understanding           String   @db.Text
+  rootProblem             String   @db.Text
+  currentProcessIssues    String   @db.Text
+  digitalOpportunity      String   @db.Text
+  recommendedSolution     String   @db.Text
+  keyFeatures             String   @db.Text
+  suggestedUserGroups     String   @db.Text
+  implementationPhases    String   @db.Text
+  quickWinPilot           String   @db.Text
+  estimatedDeliveryRange  String   @db.Text
+  estimatedInvestmentRange String  @db.Text
+  risksAndConsiderations  String   @db.Text
+  informationStillRequired String  @db.Text
+  recommendedNextStep     String   @db.Text
+  aiAssisted              Boolean  @default(false)
+  status                  String   @default("draft") // draft | sent
+  updatedByName           String
+  updatedAt               DateTime @updatedAt
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  at        DateTime @default(now())
+  actor     User?    @relation(fields: [actorId], references: [id])
+  actorId   String?
+  actorName String
+  action    String
+  target    String?
+  detail    String?
+
+  @@index([at])
+}
+
+model ContentBlock {
+  key       String   @id
+  value     Json
+  updatedAt DateTime @updatedAt
+}
+
+model Setting {
+  key   String @id
+  value Json
+}
