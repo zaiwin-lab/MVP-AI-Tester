@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getSiteContent } from "@/lib/content.server";
+import { defaultContent } from "@/lib/content";
 import { ButtonLink } from "@/components/ui/button";
 import { Icon } from "@/components/icons";
 
@@ -8,12 +8,8 @@ export const metadata: Metadata = {
   description: "Sample challenges and the digital directions KAPT would explore. Examples only.",
 };
 
-// Read editable content at request time (Blobs), not during the build.
-export const dynamic = "force-dynamic";
-
-export default async function DemoPage() {
-  const c = await getSiteContent();
-  const demo = c.demo;
+export default function DemoPage() {
+  const demo = defaultContent.demo;
   return (
     <div>
       <section className="bg-surface/40">

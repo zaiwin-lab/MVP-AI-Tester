@@ -1,30 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  poweredByHeader: false,
-  // Don't let a lint rule block a production deploy; types are still checked.
+  // Static front-end demo: exports to /out as plain HTML/CSS/JS for Netlify Drop.
+  // (Backend routes are parked in /parked-backend for the tech team.)
+  output: "export",
+  images: { unoptimized: true },
   eslint: { ignoreDuringBuilds: true },
-  experimental: {
-    serverActions: {
-      bodySizeLimit: "12mb",
-    },
-  },
-  async headers() {
-    return [
-      {
-        source: "/:path*",
-        headers: [
-          { key: "X-Content-Type-Options", value: "nosniff" },
-          { key: "X-Frame-Options", value: "SAMEORIGIN" },
-          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-          {
-            key: "Permissions-Policy",
-            value: "camera=(), microphone=(), geolocation=()",
-          },
-        ],
-      },
-    ];
-  },
 };
 
 export default nextConfig;

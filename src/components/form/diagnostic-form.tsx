@@ -83,40 +83,40 @@ export function DiagnosticForm() {
     setFiles((prev) => prev.filter((_, i) => i !== idx));
   }
 
-  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  // Demo build: no backend. Validate on the client, then show the confirmation
+  // screen with a demo reference. The tech team wires the real submission API.
+  function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setFormError(null);
     setErrors({});
-    if (!consent) {
-      setErrors({ consent: "Please tick the box so our team can review your challenge." });
+
+    const form = e.currentTarget;
+    const nextErrors: Errors = {};
+    const required: [string, string][] = [
+      ["challengeDescription", "Please describe the challenge."],
+      ["fullName", "Please enter your full name."],
+      ["workEmail", "Please enter your work email."],
+      ["mobile", "Please enter a contact number."],
+      ["organisationName", "Please enter your organisation."],
+    ];
+    for (const [name, msg] of required) {
+      const el = form.elements.namedItem(name) as HTMLInputElement | HTMLTextAreaElement | null;
+      if (!el || !el.value.trim()) nextErrors[name] = msg;
+    }
+    if (!consent) nextErrors.consent = "Please tick the box so our team can review your challenge.";
+
+    if (Object.keys(nextErrors).length > 0) {
+      setErrors(nextErrors);
+      const firstKey = Object.keys(nextErrors)[0];
+      form.querySelector<HTMLElement>(`[name="${firstKey}"]`)?.focus();
       return;
     }
-    setSubmitting(true);
-    try {
-      const fd = new FormData(e.currentTarget);
-      fd.set("renderedAt", String(renderedAt.current));
-      files.forEach((f) => fd.append("files", f));
 
-      const res = await fetch("/api/submit", { method: "POST", body: fd });
-      const data = await res.json();
-      if (!res.ok) {
-        if (data?.fieldErrors) {
-          setErrors(data.fieldErrors);
-          // Reveal the optional area if an error hides there.
-          if (Object.keys(data.fieldErrors).some((k) => OPTIONAL_KEYS.has(k))) setShowMore(true);
-        }
-        setFormError(data?.message ?? "Something went wrong. Please review the form and try again.");
-        setSubmitting(false);
-        const firstKey = data?.fieldErrors ? Object.keys(data.fieldErrors)[0] : null;
-        if (firstKey) formRef.current?.querySelector<HTMLElement>(`[name="${firstKey}"]`)?.focus();
-        return;
-      }
-      sessionStorage.removeItem(DRAFT_KEY);
-      router.push(`/submitted?ref=${encodeURIComponent(data.reference)}`);
-    } catch {
-      setFormError("We could not reach the server. Please check your connection and try again.");
-      setSubmitting(false);
-    }
+    setSubmitting(true);
+    const year = new Date().getFullYear();
+    const ref = `KAPT-${year}-${String(Math.floor(1000 + Math.random() * 9000))}`;
+    sessionStorage.removeItem(DRAFT_KEY);
+    router.push(`/submitted?ref=${encodeURIComponent(ref)}`);
   }
 
   return (

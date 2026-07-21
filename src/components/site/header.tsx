@@ -56,9 +56,6 @@ export function Header() {
         </nav>
 
         <div className="hidden items-center gap-2 lg:flex">
-          <ButtonLink href="/admin" variant="ghost" size="sm">
-            Team login
-          </ButtonLink>
           <ButtonLink href="/submit" size="sm">
             Describe my challenge
           </ButtonLink>
@@ -88,12 +85,9 @@ export function Header() {
                 {item.label}
               </Link>
             ))}
-            <div className="mt-2 grid grid-cols-2 gap-2 px-1 pb-2">
-              <ButtonLink href="/admin" variant="secondary" size="md" onClick={() => setOpen(false)}>
-                Team login
-              </ButtonLink>
-              <ButtonLink href="/submit" size="md" onClick={() => setOpen(false)}>
-                Describe challenge
+            <div className="mt-2 px-1 pb-2">
+              <ButtonLink href="/submit" size="md" className="w-full" onClick={() => setOpen(false)}>
+                Describe my challenge
               </ButtonLink>
             </div>
           </nav>

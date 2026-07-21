@@ -1,4 +1,4 @@
-import { getSiteContent } from "@/lib/content.server";
+import { defaultContent } from "@/lib/content";
 import { Hero } from "@/components/home/hero";
 import { MagicBox } from "@/components/home/magic-box";
 import { Services } from "@/components/home/services";
@@ -8,18 +8,13 @@ import { Trust } from "@/components/home/trust";
 import { Faq } from "@/components/home/faq";
 import { FinalCta } from "@/components/home/final-cta";
 
-// Rendered at request time so editable content (and Netlify Blobs) is read in
-// the serverless runtime, never during the build.
-export const dynamic = "force-dynamic";
-
 /**
  * Deliberately lean funnel: land → describe → understand how it works → why
- * KAPT → trust → a couple of questions → one clear action. Fuller sections
- * (example solutions, AI ecosystem, the full "what you receive" list) live in
- * the components library and on /demo, kept off the homepage to reduce load.
+ * KAPT → trust → a couple of questions → one clear action. Static demo build
+ * uses the default content set (the CMS override layer is a backend concern).
  */
-export default async function HomePage() {
-  const c = await getSiteContent();
+export default function HomePage() {
+  const c = defaultContent;
   return (
     <>
       <Hero content={c.hero} />
