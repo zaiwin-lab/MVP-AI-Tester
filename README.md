@@ -118,3 +118,14 @@ See `docs/DELIVERY.md` for the full security checklist and phased plan.
 Brand assets (KOBIS / KAPT logos) and contact details are **editable
 placeholders** — replace them before publishing. Nothing in this repository
 invents real government partners, logos, testimonials, or statistics.
+
+
+---
+
+## Portfolio Status & Delivery Role
+
+**Status:** Functional diagnostic-workflow prototype requiring production hardening before handling real organisational submissions.
+
+Product strategy, diagnostic workflow architecture and solution direction are led by **Zaiwin Kassim**, together with the **KOBIS AI Prodigy Team**, using supervised AI-assisted development.
+
+**Security note:** Development credential fallbacks must never be used in a public deployment. Configure strong unique administrator credentials, persistent storage, secure uploads, access logging and a production database before collecting real data.
