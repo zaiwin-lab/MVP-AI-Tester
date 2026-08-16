@@ -1,5 +1,9 @@
 # KAPT Digital Clinic
 
+> **Portfolio maturity:** Pilot Ready · Human-Reviewed Organisational Diagnosis Workflow
+
+[Open live demonstration](https://mydigiclinic.netlify.app)
+
 **Digital Solution Diagnostic Gateway** — by KAPT, the KOBIS AI Prodigy Team, for KOBIS Berhad.
 
 Organisations do not need to know what system to build. They describe an
@@ -124,7 +128,7 @@ invents real government partners, logos, testimonials, or statistics.
 
 ## Portfolio Status & Delivery Role
 
-**Status:** Functional diagnostic-workflow prototype requiring production hardening before handling real organisational submissions.
+**Status:** Pilot Ready — a functional, human-reviewed diagnostic workflow suitable for controlled demonstrations and stakeholder testing. Production hardening is required before handling real organisational submissions.
 
 Product strategy, diagnostic workflow architecture and solution direction are led by **Zaiwin Kassim**, together with the **KOBIS AI Prodigy Team**, using supervised AI-assisted development.
 
