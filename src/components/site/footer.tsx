@@ -30,7 +30,7 @@ export function Footer() {
     <footer className="deep-band text-white/75">
       <div className="container-cap grid gap-10 py-14 md:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
         <div>
-          <Logo className="h-8 sm:h-9" />
+          <Logo tone="light" className="h-8 sm:h-9" />
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/60">
             A diagnostic gateway from KAPT, the KOBIS AI Prodigy Team. Bring the challenge, we help
             define the solution.
