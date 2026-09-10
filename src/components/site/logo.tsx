@@ -23,9 +23,9 @@ export function Logo({ tone = "dark" }: { tone?: "dark" | "light" }) {
         width={1032}
         height={247}
         priority
-        className="h-[17px] w-auto transition-transform group-hover:scale-[1.03]"
+        className="h-[19px] w-auto sm:h-[21px] transition-transform group-hover:scale-[1.03]"
       />
-      <span className={`text-[1.2rem] font-extrabold leading-none tracking-[-0.01em] ${wordmark}`}>
+      <span className={`whitespace-nowrap text-[1.3rem] font-extrabold leading-none tracking-[-0.01em] sm:text-[1.45rem] ${wordmark}`}>
         Digital Clinic
       </span>
     </Link>
