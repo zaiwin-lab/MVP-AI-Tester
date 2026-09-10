@@ -1,24 +1,32 @@
+import Image from "next/image";
 import Link from "next/link";
 import { siteMeta } from "@/lib/content";
 
 /**
- * Wordmark + seal. The mark is a stylised diagnostic pulse inside a rounded
- * seal — institutional, not a robot. Replace the seal with the official
- * KOBIS / KAPT logo asset when available (placeholder by design).
+ * Official KAPT Digital Clinic lockup: the four-colour KAPT mark (the "A" is
+ * the KAPT triangle) followed by the "Digital Clinic" wordmark. The mark ships
+ * as a high-resolution transparent PNG (1032x247, traced to flat brand colours)
+ * so it stays sharp on retina and reads on both the white header and the deep
+ * footer band; the wordmark stays live text so it can invert with `tone`.
  */
 export function Logo({ tone = "dark" }: { tone?: "dark" | "light" }) {
-  const title = tone === "light" ? "text-white" : "text-ink";
-  const sub = tone === "light" ? "text-white/60" : "text-muted";
+  const wordmark = tone === "light" ? "text-white" : "text-ink";
   return (
-    <Link href="/" className="group inline-flex items-center gap-2.5" aria-label={`${siteMeta.brand} home`}>
-      <span className="grid h-9 w-9 place-items-center rounded-lg bg-primary text-white shadow-sm ring-1 ring-primary-ink/20 transition-transform group-hover:scale-[1.03]">
-        <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" aria-hidden="true">
-          <path d="M3 13h3.5l1.8-5 3 10 2.2-6 1.5 3H21" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </span>
-      <span className="leading-tight">
-        <span className={`block text-[0.98rem] font-bold tracking-tight ${title}`}>KAPT Digital Clinic</span>
-        <span className={`block text-[0.68rem] font-medium uppercase tracking-[0.13em] ${sub}`}>by KOBIS Berhad</span>
+    <Link
+      href="/"
+      className="group inline-flex items-center gap-2"
+      aria-label={`${siteMeta.brand} home`}
+    >
+      <Image
+        src="/kapt-mark.png"
+        alt="KAPT"
+        width={1032}
+        height={247}
+        priority
+        className="h-[19px] w-auto sm:h-[21px] transition-transform group-hover:scale-[1.03]"
+      />
+      <span className={`whitespace-nowrap text-[1.3rem] font-extrabold leading-none tracking-[-0.01em] sm:text-[1.45rem] ${wordmark}`}>
+        Digital Clinic
       </span>
     </Link>
   );
